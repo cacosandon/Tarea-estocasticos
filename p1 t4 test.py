@@ -86,7 +86,7 @@ class Tele:
             self.tiempo_actual = min(self.proxima_atencionA,self.proxima_atencionB, self.proxima_llegadaA, self.proxima_llegadaB)
             
             if self.tiempo_actual == self.proxima_llegadaA:
-                    if (len(self.colaA) == self.capacidad + 1 and self.proxima_atencionA < datetime(2018, 6, 18, 21, 0)) or (len(self.colaA) == self.capacidad and self.proxima_atencionA == datetime(2018, 6, 18, 21, 0)):
+                    if len(self.colaA) == self.capacidad:
                             #print("esta lleno de A")
                             self.demanda_perdidaA += 1
                     else:
@@ -100,7 +100,7 @@ class Tele:
                     self.proxima_llegadaA = self.tiempo_actual +  timedelta(minutes=int(expovariate(1/6)))
                     
             elif self.tiempo_actual == self.proxima_llegadaB:
-                    if (len(self.colaB) == self.capacidad + 1 and self.proxima_atencionB < datetime(2018, 6, 18, 21, 0)) or (len(self.colaB) == self.capacidad and self.proxima_atencionB == datetime(2018, 6, 18, 21, 0)):
+                    if len(self.colaB) == self.capacidad:
                             #print("esta lleno de B")
                             self.demanda_perdidaB += 1
                     else:
