@@ -148,7 +148,7 @@ class Tele:
 def estadisticas():
 	print("\nSimulación 1\n")
 
-	simulacion1 = Tele(5)
+	simulacion1 = Tele(3)
 	simulacion1.run()
 
    

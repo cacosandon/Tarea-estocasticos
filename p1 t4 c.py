@@ -21,7 +21,7 @@ class Tele:
         self.tiempo_revision = 0
         self.colaA = deque()
         self.colaB = deque()
-        self.proxima_llegadaA = self.tiempo_actual + timedelta(minutes=int(expovariate(1/6)))
+        self.proxima_llegadaA = self.tiempo_actual + timedelta(minutes=int(uniform(2,10)))
         self.proxima_llegadaB = self.tiempo_actual + timedelta(minutes=int(expovariate(1/4)))
         self.proxima_atencionA = datetime(2018, 6, 18, 21, 0)
         self.proxima_atencionB = datetime(2018, 6, 18, 21, 0)
@@ -92,7 +92,7 @@ class Tele:
                             if len(self.colaA) == 1 and not self.ocupado:
                                     self.proxima_atencionA = self.tiempo_actual + timedelta(minutes=int(uniform(1,3)))
                                     self.proxima_atencionB = datetime(2018, 6, 18, 21, 0)
-                    self.proxima_llegadaA = self.tiempo_actual +  timedelta(minutes=int(expovariate(1/6)))
+                    self.proxima_llegadaA = self.tiempo_actual +  timedelta(minutes=int(uniform(2,10)))
                     
             elif self.tiempo_actual == self.proxima_llegadaB:
                     if (len(self.colaB) == self.capacidad + 1 and self.proxima_atencionB < datetime(2018, 6, 18, 21, 0)) or (len(self.colaB) == self.capacidad and self.proxima_atencionB == datetime(2018, 6, 18, 21, 0)):
