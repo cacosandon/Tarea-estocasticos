@@ -12,9 +12,11 @@ class Cliente:
         
 class Tele:
     def __init__(self, capacidad):
+        
+        #PARAMETROS
         self.capacidad = capacidad
         self.tiempo_actual = datetime(2018, 6, 15, 12, 0)
-        self.tiempo_final = datetime(2018, 6, 18, 20, 0) #dps de 80hroas
+        self.tiempo_final = datetime(2018, 6, 18, 20, 0) #despues de 80 horas
         self.tarea_actual = None
         self.tiempo_revision = 0
         self.colaA = deque()
@@ -27,8 +29,8 @@ class Tele:
         self.clientesB = []
         self.minutos_sin_clientesS = 0
         self.ocupado = False
-
-        #estadisticas
+        
+        #ESTADISTICAS
         self.clientes_atendidosA = 0
         self.max_tiempo_esperaA = 0
         self.demanda_perdidaA = 0
@@ -37,9 +39,7 @@ class Tele:
         self.max_tiempo_esperaB = 0
         self.demanda_perdidaB = 0
 
-
         self.tiempo_sin_clientesS = 0
-
         self.printeo = ""
 
 
@@ -47,12 +47,14 @@ class Tele:
 
     def promedio_tiempo_en_sistemaA(self):
             suma = 0
+            print(self.tiempo_actual)
             for cliente in self.clientesA:
                     if not cliente.hora_salida:
                             cliente.hora_salida = self.tiempo_actual
                     espera = cliente.hora_salida - cliente.hora_llegada
                     suma += divmod(espera.days * 86400 + espera.seconds, 60)[0]
             return suma / len(self.clientesA)
+        
     def promedio_tiempo_en_sistemaB(self):
             suma = 0
             for cliente in self.clientesB:
@@ -80,9 +82,9 @@ class Tele:
             self.tiempo_actual = min(self.proxima_atencionA,self.proxima_atencionB, self.proxima_llegadaA, self.proxima_llegadaB)
             
             if self.tiempo_actual == self.proxima_llegadaA:
-                    if (len(self.colaA) == self.capacidad + 1 and self.proxima_atencionA < datetime(2018, 6, 18, 21, 0)) or (len(self.colaA) == self.capacidad and self.proxima_atencionA == datetime(2018, 6, 18, 21, 0)):
+                    if (len(self.colaA) == self.capacidad + 1 and self.proxima_atencionA < datetime(2018, 6, 18, 21, 0))    or (len(self.colaA) == self.capacidad and self.proxima_atencionA == datetime(2018, 6, 18, 21, 0)):
                             self.demanda_perdidaA += 1
-                            #print("Se fue A")
+                            #print("Se fue A porque estaba lleno")
                     else:
                             cliente = Cliente(self.tiempo_actual)
                             self.clientesA.append(cliente)
@@ -96,7 +98,7 @@ class Tele:
             elif self.tiempo_actual == self.proxima_llegadaB:
                     if (len(self.colaB) == self.capacidad + 1 and self.proxima_atencionB < datetime(2018, 6, 18, 21, 0)) or (len(self.colaB) == self.capacidad and self.proxima_atencionB == datetime(2018, 6, 18, 21, 0)):
                             self.demanda_perdidaB += 1
-                            #print("Se fue B")
+                            #print("Se fue B porque estaba lleno")
                     else:
                             cliente = Cliente(self.tiempo_actual)
                             self.clientesB.append(cliente)
