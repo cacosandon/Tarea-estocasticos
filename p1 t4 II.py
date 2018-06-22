@@ -41,7 +41,7 @@ class Tele:
 
         self.tiempo_sin_clientesS = 0
         self.printeo = ""
-
+        
 
 
 
@@ -65,6 +65,7 @@ class Tele:
 
 
     def run(self):
+        b = 0
         while self.tiempo_actual < self.tiempo_final:
             if len(self.colaA) == 0:
                 self.proxima_atencionA = datetime(2018, 6, 18, 21, 0)
@@ -76,7 +77,8 @@ class Tele:
             elif (len(self.colaA) == 1 or len(self.colaB) == 1) and not self.ocupado:
                 self.ocupado = True
                 tiempo = self.tiempo_actual - self.minutos_sin_clientesS
-                self.tiempo_sin_clientesS += divmod(tiempo.days * 86400 + tiempo.seconds, 60) [0]
+                if self.tiempo_actual > datetime(2018, 6, 16, 12, 0):
+                    self.tiempo_sin_clientesS += divmod(tiempo.days * 86400 + tiempo.seconds, 60) [0]
 
             self.tiempo_actual = min(self.proxima_atencionA,self.proxima_atencionB, self.proxima_llegadaA, self.proxima_llegadaB)
             
@@ -90,9 +92,16 @@ class Tele:
                             self.colaA.append(cliente)
                             #print("Llego A")
                             if len(self.colaA) == 1 and not self.ocupado:
-                                    self.proxima_atencionA = self.tiempo_actual + timedelta(minutes=int(uniform(1,3)))
+                                    b = uniform(1,3)
+                                    self.proxima_atencionA = self.tiempo_actual + timedelta(minutes=int(b),seconds = int(60*(b - int(b))))
                                     self.proxima_atencionB = datetime(2018, 6, 18, 21, 0)
-                    self.proxima_llegadaA = self.tiempo_actual +  timedelta(minutes=int(expovariate(1/6)))
+                    b = expovariate(1/6)
+                    self.proxima_llegadaA = self.tiempo_actual +  timedelta(minutes=int(b),seconds = int(60*(b - int(b))))
+                    
+                    
+                    
+                    
+                    
                     
             elif self.tiempo_actual == self.proxima_llegadaB:
                     if (len(self.colaB) == self.capacidad + 1 and self.proxima_atencionB < datetime(2018, 6, 18, 21, 0)) or (len(self.colaB) == self.capacidad and self.proxima_atencionB == datetime(2018, 6, 18, 21, 0)):
@@ -104,9 +113,11 @@ class Tele:
                             self.colaB.append(cliente)
                             #print("Llego B")
                             if len(self.colaB) == 1 and not self.ocupado:
-                                    self.proxima_atencionB = self.tiempo_actual + timedelta(minutes=int(uniform(1/2,3/2)))
+                                    b = uniform(1/2,3/2)
+                                    self.proxima_atencionB = self.tiempo_actual + timedelta(minutes=int(b),seconds = int(60*(b - int(b))))
                                     self.proxima_atencionA = datetime(2018, 6, 18, 21, 0)
-                    self.proxima_llegadaB = self.tiempo_actual +  timedelta(minutes=int(expovariate(1/4)))
+                    b = expovariate(1/4)
+                    self.proxima_llegadaB = self.tiempo_actual +  timedelta(minutes=int(b), seconds = int(60*(b - int(b))))
                             
 
                     
@@ -121,10 +132,12 @@ class Tele:
                     if divmod(espera.days * 86400 + espera.seconds, 60) [0] > self.max_tiempo_esperaA:
                             self.max_tiempo_esperaA = divmod(espera.days * 86400 + espera.seconds, 60) [0]
                     if len(self.colaA) > 0:
-                            self.proxima_atencionA = self.tiempo_actual + timedelta(minutes=int(uniform(1,3)))
+                            b = uniform(1,3)
+                            self.proxima_atencionA = self.tiempo_actual + timedelta(minutes=int(b), seconds = int(60*(b - int(b))))
                             self.proxima_atencionB = datetime(2018, 6, 18, 21, 0)
                     elif len(self.colaA) == 0 and len(self.colaB) > 0:
-                            self.proxima_atencionB = self.tiempo_actual + timedelta(minutes=int(uniform(1/2,3/2)))
+                            b = uniform(1/2,3/2)
+                            self.proxima_atencionB = self.tiempo_actual + timedelta(minutes=int(b), seconds = int(60*(b - int(b))))
                             self.proxima_atencionA = datetime(2018, 6, 18, 21, 0)
                     
 
@@ -137,18 +150,24 @@ class Tele:
                     if divmod(espera.days * 86400 + espera.seconds, 60) [0] > self.max_tiempo_esperaB:
                             self.max_tiempo_esperaB = divmod(espera.days * 86400 + espera.seconds, 60) [0]
                     if len(self.colaA) > 0:
-                            self.proxima_atencionA = self.tiempo_actual + timedelta(minutes=int(uniform(1,3)))
+                            b = uniform(1,3)
+                            self.proxima_atencionA = self.tiempo_actual + timedelta(minutes=int(b), seconds = int(60*(b - int(b))))
                             self.proxima_atencionB = datetime(2018, 6, 18, 21, 0)
                     elif len(self.colaA) == 0 and len(self.colaB) > 0:
-                            self.proxima_atencionB = self.tiempo_actual + timedelta(minutes=int(uniform(1/2,3/2)))
+                            b = uniform(1/2,3/2)
+                            self.proxima_atencionB = self.tiempo_actual + timedelta(minutes=int(b), seconds = int(60*(b - int(b))))
                             self.proxima_atencionA = datetime(2018, 6, 18, 21, 0)
+            
+       
+
+            
 
             
           
 def estadisticas():
 	print("\nSimulación 1\n")
 
-	simulacion1 = Tele(3)
+	simulacion1 = Tele(7)
 	simulacion1.run()
 
    
@@ -164,6 +183,5 @@ def estadisticas():
 	print("Maximo tiempo en sistema de tipo B: ", simulacion1.max_tiempo_esperaB,"minutos.")
 	print("Tiempo promedio de clientes tipo B en el sistema: ", simulacion1.promedio_tiempo_en_sistemaB(),"minutos.\n")
 	
-	print("Probabilidad de que el sistema se quede vacio en el largo plazo: {}%\n".format(simulacion1.tiempo_sin_clientesS * 100/4800))
-
+	print("Probabilidad de que el sistema se quede vacio en el largo plazo: {}%\n".format(simulacion1.tiempo_sin_clientesS * 100/(4800-1440)))
 estadisticas()
