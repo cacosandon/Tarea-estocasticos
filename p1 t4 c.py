@@ -65,6 +65,7 @@ class Tele:
 
 
     def run(self):
+        h= 0
         while self.tiempo_actual < self.tiempo_final:
             if len(self.colaA) == 0:
                 self.proxima_atencionA = datetime(2018, 6, 18, 21, 0)
@@ -118,6 +119,7 @@ class Tele:
                     #print("se atendio A")
                     self.clientes_atendidosA += 1
                     espera = self.tiempo_actual - cliente.hora_llegada
+                    
                     if divmod(espera.days * 86400 + espera.seconds, 60) [0] > self.max_tiempo_esperaA:
                             self.max_tiempo_esperaA = divmod(espera.days * 86400 + espera.seconds, 60) [0]
                     if len(self.colaA) > 0:
@@ -142,8 +144,10 @@ class Tele:
                     elif len(self.colaA) == 0 and len(self.colaB) > 0:
                             self.proxima_atencionB = self.tiempo_actual + timedelta(minutes=int(uniform(1/2,3/2)))
                             self.proxima_atencionA = datetime(2018, 6, 18, 21, 0)
-
             
+            #print(len(self.colaA), len(self.colaB), self.proxima_llegadaA)
+            h = max(h, len(self.colaA))
+        print(h)
           
 def estadisticas():
 	print("\nSimulación 1\n")
